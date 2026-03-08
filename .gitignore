@@ -1,0 +1,53 @@
+# -----------------------
+# Node / Next.js (frontend)
+# -----------------------
+nextjs-app/node_modules/
+nextjs-app/.next/
+nextjs-app/out/
+nextjs-app/dist/
+nextjs-app/build/
+nextjs-app/.env.local
+nextjs-app/.env.development.local
+nextjs-app/.env.production.local
+nextjs-app/.env.test.local
+nextjs-app/npm-debug.log*
+nextjs-app/yarn-debug.log*
+nextjs-app/yarn-error.log*
+
+# -----------------------
+# Python / vector-pipeline
+# -----------------------
+vector-pipeline/venv/
+vector-pipeline/__pycache__/
+vector-pipeline/*.py[cod]
+vector-pipeline/*.pyo
+vector-pipeline/*.pyd
+vector-pipeline/*.env
+vector-pipeline/*.egg-info/
+vector-pipeline/*.eggs/
+vector-pipeline/*.whl
+
+# -----------------------
+# IDE / OS files
+# -----------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# -----------------------
+# Logs
+# -----------------------
+*.log
+
+# -----------------------
+# Python test / coverage
+# -----------------------
+vector-pipeline/.coverage
+vector-pipeline/htmlcov/
+vector-pipeline/.pytest_cache/
+vector-pipeline/nosetests.xml
+vector-pipeline/coverage.xml
+vector-pipeline/*.cover

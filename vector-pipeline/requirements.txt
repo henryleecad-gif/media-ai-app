@@ -1,0 +1,6 @@
+openai
+pinecone
+supabase
+tqdm
+backoff
+python-dotenv
