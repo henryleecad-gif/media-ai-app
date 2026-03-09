@@ -1,6 +1,6 @@
-openai
 pinecone
 supabase
 tqdm
 backoff
 python-dotenv
+sentence_transformers

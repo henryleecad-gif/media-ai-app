@@ -19,7 +19,8 @@ import { fetchGraphQL, unwrapNodes } from "@/lib/supabase/graphqlHelper";
 import { MediaResponse, Movie } from "../app/type/MediaType";
 import { MEDIA_QUERY } from "@/app/query/MediaQuery";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
-import { createClient } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/client";
+import { Session } from "@supabase/supabase-js";
 
 interface Props {
   initialMovies: Movie[];
@@ -46,8 +47,23 @@ export default function MovieView({
   const observerRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState("1");
   const [messageApi, contextHolder] = message.useMessage();
-
   const [watchlist, setWatchlist] = useState<Movie[]>(initialWatchlist || []);
+  const [session, setSession] = useState<Session | null>(null)
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      setSession(session)
+    }
+
+    fetchSession()
+
+    // Optional: listen to login/logout changes
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+    return () => listener.subscription.unsubscribe()
+  }, [])
 
   const loadMoreMovies = useCallback(
     async (
@@ -88,7 +104,8 @@ export default function MovieView({
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <a onClick={() => toggleWatchList(record.id)}>Delete</a>
+          <Button onClick={() => toggleWatchList(record.id)}>Do Not Watch</Button>
+          <Button onClick={() => toggleWatchList(record.id)}>Finished</Button>
         </Space>
       ),
     },
@@ -139,10 +156,6 @@ export default function MovieView({
   };
 
   async function syncUserWatchlist(media_ids: number[]) {
-    const supabase = await createClient();
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
     const user = session?.user;
     const authId = user?.id;
     const { data, error } = await supabase.rpc("sync_user_watchlist", {
